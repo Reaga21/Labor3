@@ -1,7 +1,7 @@
 /******************************************************************
 * Projekt: Algorithmen und Datenstrukturen
 * Dateiname: main.c
-* Beschreibung: Programm zum Erstellen, Modifizeren und Löschen verketteter Listen
+* Beschreibung: Programm zum Erstellen, Modifizeren und Loeschen verketteter Listen
 * Autor: Andrea Robitzsch
 * Matr.-Nr.: 937543
 * Zuletzt geaendert: 16.05.2021
@@ -41,8 +41,8 @@ typedef struct listnode LISTNODE;
 
 LISTNODE *pStart = NULL; // zeigt aus das erste Element der Liste
 LISTNODE *pEnde = NULL;   // zeigt auf das letzte Element der Liste
-LISTNODE *pRun = NULL;  // Läuft durch die Liste durch
-LISTNODE *pTmp = NULL; // Temporärer Zeiger der Liste
+LISTNODE *pRun = NULL;  // Laeuft durch die Liste durch
+LISTNODE *pTmp = NULL; // Temporaerer Zeiger der Liste
 
 
 // Vorgegebene Enumeration als Hilfestellung
@@ -82,7 +82,7 @@ put_entry(4,100);
 put_entry(5,40);
 put_entry(20, 10000);
 put_entry(9, 200);
-//del_entry(3); --> diese Funktion funktioniert noch nicht
+del_entry(3); //--> diese Funktion funktioniert noch nicht
 //del_list();
 
 
@@ -107,16 +107,23 @@ printf("Die Anzahl der Eintraege in der Liste lautet %d", anzahl_Eintraege);
 */
 int put_entry(int position, int aktdata) /* Einfuegen */
 {
+	if(position < 0){
+		return put_Entry_Error;
+	}
    LISTNODE *pNew;
    int j;
    pNew = (LISTNODE *)malloc(sizeof(LISTNODE));
+   if(pNew == NULL){
+   	return put_Entry_Error;
+   }
    pNew->nutzerDaten = aktdata;
    pNew->pNext = NULL;
-   pEnde->pNext = NULL;
 	
-	// wenn Liste noch gar kein Element enthält -- setze es an die erste Stelle
+	// wenn Liste noch gar kein Element enthaelt -- setze es an die erste Stelle
 	if(pStart == NULL){
 		pStart = pNew;
+		pEnde = pStart;
+		pEnde->pNext = NULL;
 		return 1;
 		} else if( get_anzentries() < position){
 	// wenn die Liste kleiner ist als die Position setze Elements an das Ende der Liste		
@@ -126,9 +133,8 @@ int put_entry(int position, int aktdata) /* Einfuegen */
 	}else if (position == 1){
 		pNew->pNext = pStart;
 		pStart = pNew;
-	}
-	
-	else{
+		
+	} else{
 		pRun = pStart;
 	
    	for (j=1; j < position-1; j++){
@@ -136,7 +142,7 @@ int put_entry(int position, int aktdata) /* Einfuegen */
    		
 	   }
 	   
-	   // einfügen des Elementes an Position position
+	   // einfuegen des Elementes an Position position
 	   
 	   pNew->pNext = pRun->pNext;
 	   pRun->pNext = pNew;
@@ -158,7 +164,8 @@ int put_entry(int position, int aktdata) /* Einfuegen */
 */
 int printall(enum DIRECTION direction)
 {
-   int j=1;
+return 0;
+  int j=1;
    pRun = pStart;
    if(direction == FORWARD){
    
@@ -179,13 +186,18 @@ int printall(enum DIRECTION direction)
 */
 int del_list(void)  // TODO hat gar keinen RÃ¼ckgabewert 
 {
+return 0;
 	pRun=pStart;
+	if (pStart == NULL){
+		return 0;
+	}
 	while(pRun!=NULL){
 		pTmp = pRun;
 		pRun = pRun->pNext;
 		free(pTmp);
 		
 	}
+			
 	return 0;
 }
 
@@ -197,8 +209,10 @@ int del_list(void)  // TODO hat gar keinen RÃ¼ckgabewert
 */
 int del_entry(int position) /* Loeschen (delete) */
 {
+	return 0;
 	int j;
-	pTmp->pNext = NULL;
+//	pTmp = NULL;
+//	pTmp->pNext = NULL;
 	// pTmp ist eine globale Variable
 	pRun = pStart;
 	if(pStart!= NULL){
@@ -222,7 +236,7 @@ int del_entry(int position) /* Loeschen (delete) */
 		printf("\nEs gibt kein Element an der Position %d", position);
 	return -1;
 	}
-   
+   return -1;
 }
 }
 
@@ -233,9 +247,12 @@ int del_entry(int position) /* Loeschen (delete) */
 */
 int get_anzentries(void)      /* Anzahl ermitteln  */
 {
+
    pRun = pStart;
    int count = 0;
-   pEnde->pNext = NULL;
+   if (pStart == NULL){
+	return count;
+   }
    while (pRun != NULL){
    	++count;
    	pRun = pRun->pNext;
@@ -253,8 +270,9 @@ int get_anzentries(void)      /* Anzahl ermitteln  */
 */
 int find_entry(int value)
 {
+return 0;
    pRun = pStart;
-   pEnde->pNext = NULL;
+//   pEnde->pNext = NULL;
    while ((pRun != NULL) && (pRun->nutzerDaten != value)){
    	pRun = pRun->pNext;
    }
